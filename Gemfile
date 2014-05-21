@@ -44,5 +44,5 @@ group :test do
   gem 'email_spec'
 end
 gem 'jquery-ui-rails' # RailsThemes
-gem 'compass-rails', '~> 2.0.alpha.0' # RailsThemes
+gem 'compass-rails'
 gem 'zurb-foundation', '~> 4.0' # RailsThemes
