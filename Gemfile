@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+
 gem 'rails', '4.0.0'
 gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.0'
@@ -19,10 +19,6 @@ group :development do
   gem 'html2haml'
   gem 'hub', :require=>nil
   gem 'quiet_assets'
-  gem 'rb-fchange', :require=>false
-  gem 'rb-fsevent', :require=>false
-  gem 'rb-inotify', :require=>false
-  gem 'chef', '~> 10.12.0'
 end
 group :development, :test do
   gem 'fabrication'
@@ -30,9 +26,6 @@ group :development, :test do
   gem 'rspec-core'
   gem 'rspec-expectations'
   gem 'rspec-mocks'
-  gem 'mixlib-log', require: false
-  gem 'mixlib-cli', require: false
-  gem 'chefspec', '~> 2.0.0'
 end
 group :production do
   gem 'unicorn'
