@@ -3,7 +3,7 @@ lock '3.2.1'
 
 set :application, 'journal'
 set :repo_url, 'git@bitbucket.org:emachnic/code_tv_journal.git'
-
+set :branch, 'cap'
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
