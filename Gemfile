@@ -19,6 +19,10 @@ group :development do
   gem 'html2haml'
   gem 'hub', :require=>nil
   gem 'quiet_assets'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano3-unicorn'
 end
 group :development, :test do
   gem 'fabrication'

@@ -1,3 +1,4 @@
+APP_ROOT = "/var/www/journal/current"
 # Sample verbose configuration file for Unicorn (not Rack)
 #
 # This configuration file documents many features of Unicorn
@@ -10,7 +11,7 @@
 
 # Use at least one worker per core if you're on a dedicated server,
 # more will usually help for _short_ waits on databases/caches.
-worker_processes 4
+worker_processes 2
 
 # Since Unicorn is never exposed to outside clients, it does not need to
 # run on the standard HTTP port (80), there is no reason to start Unicorn
@@ -21,24 +22,24 @@ worker_processes 4
 
 # Help ensure your application will always spawn in the symlinked
 # "current" directory that Capistrano sets up.
-working_directory "/vagrant" # available in 0.94.0+
+working_directory APP_ROOT # available in 0.94.0+
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
-listen "/tmp/sockets/unicorn.sock", :backlog => 64
+listen "#{APP_ROOT}/tmp/sockets/unicorn.sock", :backlog => 64
 listen 8080, :tcp_nopush => true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
-timeout 30
+timeout 60
 
 # feel free to point this anywhere accessible on the filesystem
-pid "/vagrant/tmp/pids/unicorn.pid"
+pid "#{APP_ROOT}/tmp/pids/unicorn.pid"
 
 # By default, the Unicorn logger will write to stderr.
 # Additionally, ome applications/frameworks log to stderr or stdout,
 # so prevent them from going to /dev/null when daemonized here:
-stderr_path "/vagrant/log/unicorn.stderr.log"
-stdout_path "/vagrant/log/unicorn.stdout.log"
+stderr_path "#{APP_ROOT}/log/unicorn.stderr.log"
+stdout_path "#{APP_ROOT}/log/unicorn.stdout.log"
 
 # combine Ruby 2.0.0dev or REE with "preload_app true" for memory savings
 # http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow

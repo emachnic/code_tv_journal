@@ -1,74 +1,59 @@
-require 'mina/bundler'
-require 'mina/rails'
-require 'mina/git'
-# require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-# require 'mina/rvm'    # for rvm support. (http://rvm.io)
+# config valid only for Capistrano 3.1
+lock '3.2.1'
 
-# Basic settings:
-#   domain       - The hostname to SSH to.
-#   deploy_to    - Path to deploy into.
-#   repository   - Git repo to clone from. (needed by mina/git)
-#   branch       - Branch name to deploy. (needed by mina/git)
+set :application, 'journal'
+set :repo_url, 'git@bitbucket.org:emachnic/code_tv_journal.git'
 
-set :domain, 'emachnic2.cloudapp.net'
-set :deploy_to, '/var/www/codetv_nginx'
-set :repository, 'git@bitbucket.org:emachnic/codetv_nginx.git'
-set :branch, 'master'
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-# Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
-# They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'log']
+# Default deploy_to directory is /var/www/my_app
+# set :deploy_to, '/var/www/my_app'
 
-# Optional settings:
-set :user, 'deploy'    # Username in the server to SSH to.
-#   set :port, '30000'     # SSH port number.
+# Default value for :scm is :git
+# set :scm, :git
 
-# This task is the environment that is loaded for most commands, such as
-# `mina deploy` or `mina rake`.
-task :environment do
-  # If you're using rbenv, use this to load the rbenv environment.
-  # Be sure to commit your .rbenv-version to your repository.
-  # invoke :'rbenv:load'
+# Default value for :format is :pretty
+# set :format, :pretty
 
-  # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
-end
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-# Put any custom mkdir's in here for when `mina setup` is ran.
-# For Rails apps, we'll make some of the shared paths that are shared between
-# all releases.
-task :setup => :environment do
-  queue! %[mkdir -p "#{deploy_to}/shared/log"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
+# Default value for :pty is false
+# set :pty, true
 
-  queue! %[mkdir -p "#{deploy_to}/shared/config"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/config"]
+# Default value for :linked_files is []
+set :linked_files, %w{config/database.yml}
 
-  queue! %[touch "#{deploy_to}/shared/config/database.yml"]
-  queue  %[echo "-----> Be sure to edit 'shared/config/database.yml'."]
-end
+# Default value for linked_dirs is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-desc "Deploys the current version to the server."
-task :deploy => :environment do
-  deploy do
-    # Put things that will set up an empty directory into a fully set-up
-    # instance of your project.
-    invoke :'git:clone'
-    invoke :'deploy:link_shared_paths'
-    invoke :'bundle:install'
-    invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
-    to :launch do
-      queue "touch #{deploy_to}/tmp/restart.txt"
+# Default value for keep_releases is 5
+# set :keep_releases, 5
+
+namespace :deploy do
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+    end
+    invoke 'unicorn:restart'
+  end
+
+  after :publishing, :restart
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
     end
   end
+
 end
-
-# For help in making your deploy script, see the Mina documentation:
-#
-#  - http://nadarei.co/mina
-#  - http://nadarei.co/mina/tasks
-#  - http://nadarei.co/mina/settings
-#  - http://nadarei.co/mina/helpers
-
