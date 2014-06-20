@@ -4,7 +4,7 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{ec2-54-242-66-49.compute-1.amazonaws.com}
+role :app, %w{ec2-54-89-167-54.compute-1.amazonaws.com}
 
 
 # Extended Server Syntax
