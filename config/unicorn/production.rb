@@ -1,4 +1,4 @@
-APP_ROOT = "/var/www/journal/current"
+APP_ROOT = "/var/www/journal"
 # Sample verbose configuration file for Unicorn (not Rack)
 #
 # This configuration file documents many features of Unicorn
