@@ -5,4 +5,6 @@ production:
   timeout: 5000
   host: ENV['DB_PORT_5432_TCP_ADDR']
   port: ENV['DB_PORT_5432_TCP_PORT']
+  username: docker
+  template: template0
 
