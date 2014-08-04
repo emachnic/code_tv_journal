@@ -1,5 +1,8 @@
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  database: journal
   pool: 5
   timeout: 5000
+  host: ENV['DB_PORT_5432_TCP_ADDR']
+  port: ENV['DB_PORT_5432_TCP_PORT']
+
