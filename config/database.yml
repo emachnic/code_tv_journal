@@ -1,10 +1,9 @@
 production:
   adapter: postgresql
-  database: journal
+  database: postgres
   pool: 5
   timeout: 5000
   host: db
   port: 5432
-  username: docker
-  template: template0
+  username: postgres
 

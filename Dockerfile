@@ -17,5 +17,5 @@ WORKDIR /var/www/journal
 
 EXPOSE 80
 
-ENTRYPOINT /usr/bin/start_server
+CMD /usr/bin/start_server
 
