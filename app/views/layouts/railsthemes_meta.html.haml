@@ -37,7 +37,7 @@ railsthemes.com/terms. -->
             - unless content_for?(:without_navigation) || (yield :without_navigation) == true
               .row
                 %ul.button-group.right.top
-                  %li= link_to "My Account", "#", :class => "button small"
+                  %li= link_to "Account", "#", :class => "button small"
                   %li= link_to "Support", "#", :class => "button small"
         = yield :header_highlight if content_for?(:header_highlight)
     #content

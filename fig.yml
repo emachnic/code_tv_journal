@@ -9,4 +9,8 @@ db:
   image: postgres
   ports:
     - "5432"
+  volumes:
+    - /etc/postgresql
+    - /var/log/postgresql
+    - /var/lib/postgresql
 
